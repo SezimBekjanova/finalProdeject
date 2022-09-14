@@ -1,5 +1,6 @@
 package kg.megacom.finalprodeject.models;
 
+import kg.megacom.finalprodeject.models.enums.StatusUser;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -17,4 +18,7 @@ public class User {
     String userName;
     String email;
     String number;
+    String photo;
+    @Enumerated(value = EnumType.STRING)
+    private StatusUser status;
 }

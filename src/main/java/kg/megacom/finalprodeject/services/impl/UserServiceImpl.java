@@ -3,6 +3,7 @@ package kg.megacom.finalprodeject.services.impl;
 import kg.megacom.finalprodeject.mappers.UserMapper;
 import kg.megacom.finalprodeject.models.User;
 import kg.megacom.finalprodeject.models.dto.UserDto;
+import kg.megacom.finalprodeject.models.enums.StatusUser;
 import kg.megacom.finalprodeject.repo.UserRepo;
 import kg.megacom.finalprodeject.services.UserService;
 import org.springframework.stereotype.Service;
@@ -32,9 +33,20 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    @Override
-    public void update(Long id, String nameUser, String number, String email ) {
-        userRepo.update(id,nameUser,number,email);
-    }
+   // @Override
+  //  public void update(Long id, String nameUser, String number, String email ) {
+   //     userRepo.update(id,nameUser,number,email);
+   // }
+   @Override
+   public User update(Long id, String nameUser, String number, String email, String photo, StatusUser status) {
+        User user = userRepo.findById(id).orElseThrow();
+        user.setUserName(nameUser);
+        user.setEmail(email);
+        user.setNumber(number);
+        user.setPhoto(photo);
+        user.setStatus(status);
+       userRepo.save(user);
+       return user;
+   }
 
 }

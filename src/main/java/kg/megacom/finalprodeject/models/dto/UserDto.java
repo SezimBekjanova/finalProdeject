@@ -1,5 +1,6 @@
 package kg.megacom.finalprodeject.models.dto;
 
+import kg.megacom.finalprodeject.models.enums.StatusUser;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -11,4 +12,6 @@ public class UserDto {
     String userName;
     String email;
     String number;
+    String photo;
+    StatusUser status;
 }

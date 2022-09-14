@@ -2,6 +2,7 @@ package kg.megacom.finalprodeject.Controllers;
 
 import kg.megacom.finalprodeject.models.User;
 import kg.megacom.finalprodeject.models.dto.UserDto;
+import kg.megacom.finalprodeject.models.enums.StatusUser;
 import kg.megacom.finalprodeject.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public void update(@RequestParam Long id,@RequestParam  String nameUser,@RequestParam  String number,@RequestParam  String email ){
-        userService.update(id, nameUser, number, email);
+    public User update(@RequestParam Long id, @RequestParam  String nameUser, @RequestParam  String number, @RequestParam  String email, @RequestParam String photo, @RequestParam StatusUser status){
+        return userService.update(id, nameUser, number, email, photo, status);
     }
 }
