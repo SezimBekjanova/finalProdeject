@@ -1,12 +1,15 @@
 package kg.megacom.finalprodeject.services.impl;
 
 import kg.megacom.finalprodeject.mappers.UserMapper;
+import kg.megacom.finalprodeject.microservice.FileServiceFeign;
+import kg.megacom.finalprodeject.microservice.json.Response;
 import kg.megacom.finalprodeject.models.User;
 import kg.megacom.finalprodeject.models.dto.UserDto;
 import kg.megacom.finalprodeject.models.enums.StatusUser;
 import kg.megacom.finalprodeject.repo.UserRepo;
 import kg.megacom.finalprodeject.services.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -14,9 +17,11 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
     private final UserMapper userMapper;
+    private final FileServiceFeign fileServiceFeign;
 
-    public UserServiceImpl(UserRepo userRepo) {
+    public UserServiceImpl(UserRepo userRepo, FileServiceFeign fileServiceFeign) {
         this.userRepo = userRepo;
+        this.fileServiceFeign = fileServiceFeign;
         this.userMapper = UserMapper.INSTANCE;
     }
 
@@ -25,6 +30,7 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.toEntity(userDto);
         userRepo.save(user);
         return user;
+
     }
 
     @Override
@@ -32,21 +38,19 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = userRepo.findById(id);
         return user;
     }
-
-   // @Override
-  //  public void update(Long id, String nameUser, String number, String email ) {
-   //     userRepo.update(id,nameUser,number,email);
-   // }
    @Override
-   public User update(Long id, String nameUser, String number, String email, String photo, StatusUser status) {
+   public User update(Long id,StatusUser status) {
         User user = userRepo.findById(id).orElseThrow();
-        user.setUserName(nameUser);
-        user.setEmail(email);
-        user.setNumber(number);
-        user.setPhoto(photo);
         user.setStatus(status);
        userRepo.save(user);
        return user;
    }
+
+    @Override
+    public User sddUser(User user, MultipartFile file) {
+        Response response = fileServiceFeign.upload(file);
+        user.setPhoto(response.getDownloadUri());
+        return userRepo.save(user);
+    }
 
 }
