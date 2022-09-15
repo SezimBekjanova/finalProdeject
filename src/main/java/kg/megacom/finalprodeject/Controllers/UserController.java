@@ -6,6 +6,7 @@ import kg.megacom.finalprodeject.models.dto.UserDto;
 import kg.megacom.finalprodeject.models.enums.StatusUser;
 import kg.megacom.finalprodeject.services.ServiceStatisticsService;
 import kg.megacom.finalprodeject.services.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,6 +37,11 @@ public class UserController {
     @GetMapping("/info")
     public Optional<User> getInfo(@RequestParam Long id){
         return userService.findById(id);
+    }
+
+    @GetMapping("/info/v2")
+    public ResponseEntity findById(@RequestParam Long id){
+        return userService.info(id);
     }
 
     @PutMapping("/update")

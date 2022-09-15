@@ -8,11 +8,13 @@ import kg.megacom.finalprodeject.models.dto.UserDto;
 import kg.megacom.finalprodeject.models.enums.StatusUser;
 import kg.megacom.finalprodeject.repo.UserRepo;
 import kg.megacom.finalprodeject.services.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -40,6 +42,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findById(Long id) {
         Optional<User> user = userRepo.findById(id);
+        if(Objects.isNull(user)){
+            throw new RuntimeException("Пользователь с таким кодом не существует!");
+        }
         return user;
     }
    @Override
@@ -66,5 +71,15 @@ public class UserServiceImpl implements UserService {
     public List<User> findAll() {
         List<User> userList = userRepo.findAll();
         return userList;
+    }
+
+    @Override
+    public ResponseEntity info(Long id) {
+        try {
+            Optional<User> user = userRepo.findById(id);
+            return ResponseEntity.ok(user);
+        }catch (Exception e){
+            return ResponseEntity.ok("Такой пользователь не найден!");
+        }
     }
 }
