@@ -5,13 +5,15 @@ import kg.megacom.finalprodeject.models.dto.UserDto;
 import kg.megacom.finalprodeject.models.enums.StatusUser;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    User save(UserDto userDto);
+    UserDto save(UserDto userDto);
     Optional<User> findById(Long id);
-    //void update(Long id, String nameUser, String number, String email );
     User update(Long id, StatusUser status);
 
-    User sddUser(User user, MultipartFile file);
+    UserDto addPhoto(User user, MultipartFile file);
+
+    List<User> findAll();
 }

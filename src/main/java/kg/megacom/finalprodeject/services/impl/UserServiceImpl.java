@@ -11,6 +11,8 @@ import kg.megacom.finalprodeject.services.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,11 +28,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(UserDto userDto) {
+    public UserDto save(UserDto userDto) {
         User user = userMapper.toEntity(userDto);
         userRepo.save(user);
-        return user;
-
+        UserDto userDto1 = new UserDto();
+        userDto1.setId(user.getId());
+        return userDto1;
+        // регистрация без статуса
     }
 
     @Override
@@ -41,16 +45,26 @@ public class UserServiceImpl implements UserService {
    @Override
    public User update(Long id,StatusUser status) {
         User user = userRepo.findById(id).orElseThrow();
+        user.setDate(new Date());
         user.setStatus(status);
        userRepo.save(user);
        return user;
+       // добаволение/изменение статуса
    }
 
     @Override
-    public User sddUser(User user, MultipartFile file) {
+    public UserDto addPhoto(User user, MultipartFile file) {
         Response response = fileServiceFeign.upload(file);
         user.setPhoto(response.getDownloadUri());
-        return userRepo.save(user);
+        userRepo.save(user);
+        UserDto userDto = userMapper.toDto(user);
+        return userDto;
+        // добавление фото без статуса
     }
 
+    @Override
+    public List<User> findAll() {
+        List<User> userList = userRepo.findAll();
+        return userList;
+    }
 }

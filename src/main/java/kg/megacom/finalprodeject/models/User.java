@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -21,4 +22,5 @@ public class User {
     String photo;
     @Enumerated(value = EnumType.STRING)
     private StatusUser status;
+    Date date;
 }
