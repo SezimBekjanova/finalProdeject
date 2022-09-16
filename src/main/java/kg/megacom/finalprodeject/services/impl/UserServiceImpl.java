@@ -39,13 +39,17 @@ public class UserServiceImpl implements UserService {
         // регистрация без статуса
     }
 
+
+
     @Override
-    public Optional<User> findById(Long id) {
-        Optional<User> user = userRepo.findById(id);
-        if(Objects.isNull(user)){
-            throw new RuntimeException("Пользователь с таким кодом не существует!");
-        }
-        return user;
+    public User findById(Long id) {
+
+        //if(Objects.isNull(user)){
+        //    throw new RuntimeException("Пользователь с таким кодом не существует!");
+        //}
+        //return user;
+        return userRepo.findById(id).orElseThrow(()->new RuntimeException("Такого пользователя нет"));
+
     }
    @Override
    public User update(Long id,StatusUser status) {

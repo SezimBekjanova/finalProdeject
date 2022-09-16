@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface UserService {
     UserDto save(UserDto userDto);
 
-    Optional<User> findById(Long id);
+    User findById(Long id);
 
     User update(Long id, StatusUser status);
 

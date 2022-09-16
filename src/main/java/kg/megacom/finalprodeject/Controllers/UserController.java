@@ -31,11 +31,12 @@ public class UserController {
     }
     @PostMapping("/save/photo")
     private UserDto addPhoto(@RequestParam Long id, @RequestPart MultipartFile file){
-        User user = userService.findById(id).orElseThrow();
+        User user = userService.findById(id);
         return userService.addPhoto(user , file);
     }
+
     @GetMapping("/info")
-    public Optional<User> getInfo(@RequestParam Long id){
+    public User getInfo(@RequestParam Long id){
         return userService.findById(id);
     }
 
@@ -48,6 +49,7 @@ public class UserController {
     public User update(@RequestParam Long id, @RequestParam StatusUser status){
         return userService.update(id, status);
     }
+
     @GetMapping("/serverStatistics")
     public List<ServerStatistics> serverStatistics(@RequestParam(required = false) StatusUser statusUser, @RequestParam(required = false)Date date){
         return serviceStatisticsService.serverStatistics(statusUser,date);}
