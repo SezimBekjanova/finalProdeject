@@ -53,7 +53,10 @@ public class UserServiceImpl implements UserService {
     }
    @Override
    public User update(Long id,StatusUser status) {
-        User user = userRepo.findById(id).orElseThrow();
+        User user = userRepo.findById(id).orElseThrow(()-> new RuntimeException("Пользователь не найдет! "));
+        if(user.getStatus()==status){
+            throw new RuntimeException("У вас уже стоит такой статус!");
+        }
         user.setDate(new Date());
         user.setStatus(status);
        userRepo.save(user);

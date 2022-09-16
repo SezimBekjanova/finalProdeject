@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -29,28 +28,35 @@ public class UserController {
     public UserDto save(@RequestBody UserDto userDto){
         return userService.save(userDto);
     }
+    // сохранение пользователя
+
     @PostMapping("/save/photo")
     private UserDto addPhoto(@RequestParam Long id, @RequestPart MultipartFile file){
         User user = userService.findById(id);
         return userService.addPhoto(user , file);
     }
+    // добавление фото пльзователя
 
     @GetMapping("/info")
     public User getInfo(@RequestParam Long id){
         return userService.findById(id);
     }
+    // вытаскиаем пльзователя по id
 
     @GetMapping("/info/v2")
     public ResponseEntity findById(@RequestParam Long id){
         return userService.info(id);
     }
+    // вытаскиаем пльзователя по id
 
     @PutMapping("/update")
     public User update(@RequestParam Long id, @RequestParam StatusUser status){
         return userService.update(id, status);
     }
+    // изменение статуса
 
     @GetMapping("/serverStatistics")
     public List<ServerStatistics> serverStatistics(@RequestParam(required = false) StatusUser statusUser, @RequestParam(required = false)Date date){
         return serviceStatisticsService.serverStatistics(statusUser,date);}
+    // проверка статусаБЯЧЧ
 }

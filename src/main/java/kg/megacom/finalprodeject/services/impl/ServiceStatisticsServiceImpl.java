@@ -30,10 +30,8 @@ public class ServiceStatisticsServiceImpl implements ServiceStatisticsService {
                 .stream()
                 .filter(x-> x.getStatus()!=null && x.getDate()!=null)
                 .collect(Collectors.toList());
-
-        if(statusUser == null && date ==null ){
-            return serverStatisticsList1;
-        }
+        // здесь мы сортируем весь лист пользователей
+        // вытаскиваем у кого был изменен статус
 
         if(statusUser != null && date==null){
             return serverStatisticsList1
@@ -41,21 +39,26 @@ public class ServiceStatisticsServiceImpl implements ServiceStatisticsService {
                     .filter(x-> x.getStatus()==statusUser )
                     .collect(Collectors.toList());
         }
+        // если в запросах был передан только статус, то вытаскиваем у кого статус равен переданному статусу
 
-        if(statusUser ==null && date != null){
+         else if(statusUser ==null && date != null){
             return serverStatisticsList1
                     .stream()
-                    .filter(x-> x.getDate().getTime() >= date.getTime())
+                    .filter(x-> x.getDate().getTime() > date.getTime())
                     .collect(Collectors.toList());
         }
+        // если в запросах был передано только время, то вытаскиваем у кого время больше переданному времени
 
-        if(statusUser !=null && date != null){
+
+        else if(statusUser !=null && date != null){
             return serverStatisticsList1
                     .stream()
-                    .filter(x-> x.getStatus() == statusUser && x.getDate().getTime() >= date.getTime())
+                    .filter(x-> x.getStatus() == statusUser && x.getDate().getTime() > date.getTime())
                     .collect(Collectors.toList());
         }
+        // если в параметрах указаны и статус, и время, то вытаскиваем у кого совпадает статус и больше время переданного сремени
 
-        return null;
+        return serverStatisticsList1;
+        // без параметров, у кого статус изменен
     }
 }
