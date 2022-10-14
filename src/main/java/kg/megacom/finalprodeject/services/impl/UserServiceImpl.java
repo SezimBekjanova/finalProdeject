@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -43,11 +42,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) {
-
-        //if(Objects.isNull(user)){
-        //    throw new RuntimeException("Пользователь с таким кодом не существует!");
-        //}
-        //return user;
         return userRepo.findById(id).orElseThrow(()->new RuntimeException("Такого пользователя нет"));
 
     }
