@@ -55,8 +55,7 @@ public class UserController {
     }
     // изменение статуса
 
-    @GetMapping("/serverStatistics")
+    @GetMapping("/serverStatistic")
     public List<ServerStatistics> serverStatistics(@RequestParam(required = false) StatusUser statusUser, @RequestParam(required = false)Date date){
         return serviceStatisticsService.serverStatistics(statusUser,date);}
-    // проверка статуса
 }
